@@ -2,8 +2,8 @@
 
 //con esto de arriba identifico que voy a trabajar con node
 const mdLinks = require('./md-links');// para el require no es necesario poner la extencion .js 
-console.log(mdLinks.suma(2,2));
-console.log(mdLinks.multi(2,2));
+//console.log(mdLinks.suma(2,2));
+//console.log(mdLinks.multi(2,2));
 
 // esto es para leer el readme.md
 
@@ -12,6 +12,7 @@ console.log(mdLinks.multi(2,2));
 //if (err) throw err;
 //console.log(data);
 //});
+
 const fs = require('fs');
 const markdownLinkExtractor = require('markdown-link-extractor');
 
@@ -23,5 +24,15 @@ links.forEach(function (link) {
  console.log(link);
 });
 
+//const fs = require('fs');
+//const markdownLinkChecker = require('broken-link-checker');
+
+//const markdown = fs.readFileSync('readme.md').toString();
+
+//const links = markdownLinkChecker(markdown);
+
+//links.forEach(function (link) {
+ //console.log(link);
+//});
 
   
