@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>callback</title>
+<script>
+    //callback, es el llamado a la funcion, que llama al valor y el callback en si es mostrar la informacion 
+    const inicio = function (valor,callback){ 
+        //se añade una comprovacion de que callback sea una funcion 
+        if(typeof callback ==='function'){
+            callback(valor);
+        } else{
+            console.log(valor);
+        }
+        
+    }
+    inicio("paulo",function(valor){
+         console.log("bienvenido"+ valor);
+        
+    })
+</script>
+</head>
+<body>
+    
+</body>
+</html>
