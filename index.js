@@ -13,26 +13,4 @@ const mdLinks = require('./md-links');// para el require no es necesario poner l
 //console.log(data);
 //});
 
-const fs = require('fs');
-const markdownLinkExtractor = require('markdown-link-extractor');
-
-const markdown = fs.readFileSync('readme.md').toString();
-
-const links = markdownLinkExtractor(markdown);
-
-links.forEach(function (link) {
- console.log(link);
-});
-
-//const fs = require('fs');
-//const markdownLinkChecker = require('broken-link-checker');
-
-//const markdown = fs.readFileSync('readme.md').toString();
-
-//const links = markdownLinkChecker(markdown);
-
-//links.forEach(function (link) {
- //console.log(link);
-//});
-
-  
+ 
