@@ -1,9 +1,48 @@
+"use strict"
 const fs = require('fs');
 const fetch = require('node-fetch');
+const path = require('path');
 const command = process.argv[2]//te toma desde la posicion dos 
 const markdownLinkExtractor = require('markdown-link-extractor');
-const markdown = fs.readFileSync(command).toString();// leyendo el command , antes era el readme
-const links = markdownLinkExtractor(markdown);//aqui extrae lo deja en linck 
+const FileHound = require('filehound');// libreria que busca dentro de los archivos 
+
+const readFile= (fileName, type) =>{ // esta crea la funcion leer archivo 
+  return new Promise ((resolve,reject)=>{// retorna una promesa que puede ser resuelta o no 
+   fs.readFile(fileName, type, (error,contenido)=>{//usar fs.readFile,necesita dos condiciones 
+      error ? reject(error):resolve(contenido);
+    })
+  
+  });
+}
+readFile(command,"utf-8")
+   .then (res=>{
+    //console.log(res);
+    const links = markdownLinkExtractor(res)
+    links.forEach(function (element,text) {
+    console.log(element);
+    })
+   })
+   .catch(err =>{ // si da error muestra un catch 
+       console.log(err)
+   })
+
+const validateLinks = (href) =>{
+    return new Promise ((resolve,reject)=>{
+        fetch(href).then((res)=>{
+            console.log(element + " " + res.status + " " + res.status.Text);
+        })
+        .catch (error =>{
+            console.log(error.message)
+        })
+    })
+}
+validateLinks()
+.then(res=>{
+        console.log(res)
+})
+.catch(err=>{
+        console.log(err)
+})
 // valida 
 /*links.forEach(function (element) {// lo recorre  
 fetch(element).then((res)=>{ // fetch toma el elemnto que toma
@@ -15,7 +54,7 @@ fetch(element).then((res)=>{ // fetch toma el elemnto que toma
 })
 });
 */
-exports.links = links;
+//exports.links = links;
 
 //links.forEach(function (element) {// lo recorre  
 //fetch(element).then((res)=>{ // fetch toma el elemnto que toma
@@ -39,9 +78,9 @@ exports.links = links;
 //});
 
 //extrae archivos md 
-const fs = require('fs');
-const path = require('path');
-const dir = "C:\\Users\\Luci\\Desktop\\laboratoria";
+//const fs = require('fs');
+//const path = require('path');
+//const dir = "C:\\Users\\Luci\\Desktop\\laboratoria";
 // Check write permission
 /* try {
     fs.accessSync(dir, fs.constants.W_OK);
@@ -64,9 +103,8 @@ let answer = fs.readdir(dir, (err, files) => {
 });*/
 //--------------------------------------
 //extrae archivos md
+
 /*
-const FileHound = require('filehound');
-// C:\\Users\\Luci\\Desktop\\laboratoria\\SCL008-md-links
 const files = FileHound.create()
  .paths('C:\Users\Luci\Desktop\laboratoria') // ruta donde quiero que busque los archivos
  .ext('md')// tipo de archivo que quiero que busque
@@ -74,11 +112,8 @@ const files = FileHound.create()
 
 files.then(res =>{
     console.log(res);
-});*/
+});
 //-------------------------------------------------------
-//muestra enlaces rotos
+//muestra enlaces rotos*/
 
-const findlinks = require('findlinks');
-findlinks({ src: 'C:\Users\Luci\Desktop\laboratoria' })
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+
