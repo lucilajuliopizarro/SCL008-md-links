@@ -1,50 +1,59 @@
 "use strict"
 const fs = require('fs');
 const fetch = require('node-fetch');
-const path = require('path');
+//const path = require('path');
+const mdLink =require('./md-links');
 const command = process.argv[2]//te toma desde la posicion dos 
 const markdownLinkExtractor = require('markdown-link-extractor');
-const FileHound = require('filehound');// libreria que busca dentro de los archivos 
+//const FileHound = require('filehound');// libreria que busca dentro de los archivos 
 
-const readFile= (fileName, type) =>{ // esta crea la funcion leer archivo 
+const readFile= (file, type) =>{ // esta crea la funcion leer archivo 
   return new Promise ((resolve,reject)=>{// retorna una promesa que puede ser resuelta o no 
-   fs.readFile(fileName, type, (error,contenido)=>{//usar fs.readFile,necesita dos condiciones 
-      error ? reject(error):resolve(contenido);
-    })
-  
-  });
+   fs.readFile(file, type, (error,contenido)=>{//usar fs.readFile,necesita dos condiciones 
+    if (error){
+        reject(error)
+    }else{
+        resolve(contenido)
+    }
+});
+});
 }
-readFile(command,"utf-8")
+//llamo a la funcion 
+readFile(command,"utf-8")// vuelvo a llamar a la const creada y  le paso el archivo
    .then (res=>{
     //console.log(res);
     const links = markdownLinkExtractor(res)
-    links.forEach(function (element,text) {
-    console.log(element);
-    })
-   })
-   .catch(err =>{ // si da error muestra un catch 
-       console.log(err)
-   })
-
-const validateLinks = (href) =>{
-    return new Promise ((resolve,reject)=>{
-        fetch(href).then((res)=>{
-            console.log(element + " " + res.status + " " + res.status.Text);
+    links.forEach(function (link) {
+        fetch(link).then((res)=>{ //respuesta
+            console.log(' ' + res.url + '  ' + res.status + ' ' + res.statusText); // me entrega la url el status status text
+    
         })
-        .catch (error =>{
+        .catch(error => {
             console.log(error.message)
         })
-    })
-}
-validateLinks()
-.then(res=>{
-        console.log(res)
+    });
 })
-.catch(err=>{
-        console.log(err)
-})
+exports.readFile = readFile;
+//const validateLinks = (href) =>{
+   // return new Promise ((resolve,reject)=>{
+      //  fetch(href).then((res)=>{
+        //    console.log(element + " " + res.status + " " + res.status.Text);
+       // })
+       // .catch (error =>{
+         //   console.log(error.message)
+        //})
+   // })
+//}
+//validateLinks()
+//.then(res=>{
+  //      console.log(res)
+//})
+//.catch(err=>{
+    //    console.log(err)
+//})
 // valida 
-/*links.forEach(function (element) {// lo recorre  
+/*
+links.forEach(function (element) {// lo recorre  
 fetch(element).then((res)=>{ // fetch toma el elemnto que toma
     console.log(res.url + " " + res.status + " " + res.statusText); // te toma la url un espacio el numero 200 y si esta ok el lick
 })
@@ -53,8 +62,9 @@ fetch(element).then((res)=>{ // fetch toma el elemnto que toma
  console.log(error.message);
 })
 });
-*/
-//exports.links = links;
+
+exports.links = links;/*
+
 
 //links.forEach(function (element) {// lo recorre  
 //fetch(element).then((res)=>{ // fetch toma el elemnto que toma
@@ -112,8 +122,16 @@ const files = FileHound.create()
 
 files.then(res =>{
     console.log(res);
-});
+});*/
 //-------------------------------------------------------
-//muestra enlaces rotos*/
+/*
+//extrae archivos md
+const FileHound = require('filehound');
 
+const files = FileHound.create()
+ .paths('C:\\Users\\Luci\\Desktop\\laboratoria\\SCL008-md-links')// ruta donde quiero que busque los archivos
+ .ext('md')// tipo de archivo que quiero que busque
+ .find();
+
+files.then(console.log);*/
 
