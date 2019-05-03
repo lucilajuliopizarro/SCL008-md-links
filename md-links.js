@@ -1,12 +1,12 @@
 "use strict"
 const fs = require('fs');
 const fetch = require('node-fetch');
-//const path = require('path');
+const path = require('path');
 const mdLink =require('./md-links');
 const command = process.argv[2]//te toma desde la posicion dos 
 const markdownLinkExtractor = require('markdown-link-extractor');
 //const FileHound = require('filehound');// libreria que busca dentro de los archivos 
-
+const chalk =require("chalk");
 const readFile= (file, type) =>{ // esta crea la funcion leer archivo 
   return new Promise ((resolve,reject)=>{// retorna una promesa que puede ser resuelta o no 
    fs.readFile(file, type, (error,contenido)=>{//usar fs.readFile,necesita dos condiciones 
@@ -25,7 +25,8 @@ readFile(command,"utf-8")// vuelvo a llamar a la const creada y  le paso el arch
     const links = markdownLinkExtractor(res)
     links.forEach(function (link) {
         fetch(link).then((res)=>{ //respuesta
-            console.log(' ' + res.url + '  ' + res.status + ' ' + res.statusText); // me entrega la url el status status text
+
+            console.log(path.resolve(command), chalk.green(res.url),chalk.magenta(res.status),chalk.yellow(res.statusText)); // me entrega la url el status status text
     
         })
         .catch(error => {
